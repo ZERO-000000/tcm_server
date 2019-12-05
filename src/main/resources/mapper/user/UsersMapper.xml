@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.user.mapper.UsersMapper">
+    <resultMap type="com.user.entity.Users" id="userResult">
+        <result property="roleUserSid" column="role_user_sid"/>
+    </resultMap>
+    <select id="getUserById" resultType="java.lang.String">
+        select u.name from TEST_USERS u
+    </select>
+    <select id="findUserByName" resultType="com.user.entity.Users" parameterType="java.lang.String">
+        select * from test_users u where u.name=#{name}
+    </select>
+    <select id="findUserByRoleSid" resultMap="userResult" parameterType="java.lang.Long">
+        select u.*,r.sid as role_user_sid from test_users u,test_role_r_users r where r.role_sid=#{roleSid} and r.user_sid=u.sid
+    </select>
+    <delete id="delUserByRoleUserSid" parameterType="java.lang.Long">
+        delete from test_role_r_users t where t.sid=#{roleUserSid}
+    </delete>
+</mapper>
