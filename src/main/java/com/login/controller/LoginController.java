@@ -5,11 +5,19 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.UnknownSessionException;
+import org.apache.shiro.session.mgt.SessionKey;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,5 +56,22 @@ public class LoginController{
     public void logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
+    }
+    @RequestMapping("/checkLoginSession")
+    public void checkLoginSession(String token, HttpServletResponse response) {
+        SessionKey sessionKey = new SessionKey() {
+            @Override
+            public Serializable getSessionId() {
+                return token;
+            }
+        };
+        try {
+            Session session = SecurityUtils.getSecurityManager().getSession(sessionKey);
+            System.out.println("登录的******"+token+"******session未过期");
+        } catch (UnknownSessionException e) {
+            response.setStatus(999);
+            System.out.println("登录的******"+token+"******session已过期");
+            e.printStackTrace();
+        }
     }
 }
