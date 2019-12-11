@@ -2,6 +2,7 @@ package com.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.user.entity.Users;
+import org.apache.catalina.User;
 
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface UsersService extends IService<Users> {
     public Users findUserByName(String name);
     public List<Users> findUserByRoleSid(Long roleSid);
     public void delUserByRoleUserSid(Long roleUserSid);
+    public List<Users> findUsersByOrgSid(int[] orgSid);
 }

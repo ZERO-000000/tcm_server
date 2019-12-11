@@ -6,6 +6,7 @@ import com.base.entity.AbstractEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +68,19 @@ public class BaseController<BaseService extends IService,T extends AbstractEntit
         }catch(Exception e){
             e.printStackTrace();
             return "单条删除失败";
+        }
+    }
+
+    @RequestMapping("/removeAll")
+    public String removeAll(@RequestParam("entities") List<T> ts){
+        try{
+            ts.forEach(t -> {
+                baseService.removeById(t.getSid());
+            });
+            return "删除成功";
+        }catch(Exception e){
+            e.printStackTrace();
+            return "删除失败";
         }
     }
 

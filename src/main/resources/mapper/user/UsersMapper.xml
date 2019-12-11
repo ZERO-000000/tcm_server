@@ -13,6 +13,12 @@
     <select id="findUserByRoleSid" resultMap="userResult" parameterType="java.lang.Long">
         select u.*,r.sid as role_user_sid from test_users u,test_role_r_users r where r.role_sid=#{roleSid} and r.user_sid=u.sid
     </select>
+    <select id="findUsersByOrgSid" resultMap="userResult">
+        select * from test_users u where u.org_sid in
+        <foreach collection="array" item="os" open="(" close=")" separator=",">
+            #{os}
+        </foreach>
+    </select>
     <delete id="delUserByRoleUserSid" parameterType="java.lang.Long">
         delete from test_role_r_users t where t.sid=#{roleUserSid}
     </delete>

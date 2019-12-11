@@ -40,4 +40,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper,Users> implements 
     public void delUserByRoleUserSid(Long roleUserSid){
         usersMapper.delUserByRoleUserSid(roleUserSid);
     }
+
+    @Override
+    public List<Users> findUsersByOrgSid(int[] orgSid) {
+        return usersMapper.findUsersByOrgSid(orgSid);
+    }
 }

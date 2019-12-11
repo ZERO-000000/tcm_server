@@ -6,7 +6,9 @@ import com.user.service.UsersService;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -36,5 +38,12 @@ public class UsersController extends BaseController<UsersService,Users> {
     @RequestMapping("/delUserByRoleUserSid")
     public void delUserByRoleUserSid(@Param("roleUserSid") Long roleUserSid){
         usersService.delUserByRoleUserSid(roleUserSid);
+    }
+
+    @RequestMapping("/findUsersByOrgSid")
+    public List<Users> findUsersByOrgSid(@RequestParam("orgSid") int[] orgSid){
+        logger.info("组织机构SID"+orgSid.toString());
+        List<Users> users=usersService.findUsersByOrgSid(orgSid);
+        return users;
     }
 }
